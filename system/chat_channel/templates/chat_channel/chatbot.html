@@ -1,0 +1,23 @@
+{% extends 'chat_channel/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center">哈哈哈哈机器人</h1>
+            <form method="POST" class="mt-5">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.message.auto_id }}">Message</label>
+                    <textarea name="{{ form.message.name }}" id="{{ form.message.auto_id }}" class="form-control" rows="4" cols="50">{{ form.message.value|default:'' }}</textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">发送</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
