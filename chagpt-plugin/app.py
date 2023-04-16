@@ -48,7 +48,7 @@ def check(input_response):
             prob = response.choices[0]['message']['content']
             tries += 1
 
-    if prob < 0.5:
+    if prob < 0.:
         return False
     else:
         return True
