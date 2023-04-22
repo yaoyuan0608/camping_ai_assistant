@@ -1,23 +1,92 @@
 {% extends 'chat_channel/base.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h1 class="text-center">哈哈哈哈机器人</h1>
-            <form method="POST" class="mt-5">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="{{ form.message.auto_id }}">Message</label>
-                    <textarea name="{{ form.message.name }}" id="{{ form.message.auto_id }}" class="form-control" rows="4" cols="50">{{ form.message.value|default:'' }}</textarea>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2">
+        <div class="card">
+          <div class="card-header bg-dark text-white">
+            Chatbot
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="chat-history p-3">
+                  <div class="chat-message chat-message-bot mb-3">
+                    <div class="p-2 rounded bg-light d-inline-block">
+                      <span>您好，有什么问题可以帮您</span>
+                    </div>
+                  </div>
+                  <div class="chat-message chat-message-user mb-3">
+                    <div class="p-2 rounded bg-primary text-white d-inline-block float-right">
+                      <span>你好，我想咨询一下露营相关的问题</span>
+                    </div>
+                  </div>
+                  <div class="chat-message chat-message-bot mb-3">
+                    <div class="p-2 rounded bg-light d-inline-block">
+                      <span>当然可以，你有什么问题吗？</span>
+                    </div>
+                  </div>
+                  <!-- add more chat messages here -->
                 </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">发送</button>
+                <div id="chat-input" class="mt-3">
+                  <form method="POST" id="chat-form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="input-group">
+                      <input type="text" name="message" id="id_message" class="form-control rounded-0">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary rounded-0" type="submit" id="send-button"><i class="fa fa-paper-plane"></i>发送</button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-            </form>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+
+  <script>
+    const chatForm = document.querySelector('#chat-form');
+    const chatLog = document.querySelector('.chat-history');
+    const sendButton = document.querySelector('#send-button');
+    
+    function scrollToBottom() {
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    chatForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(chatForm);
+      const message = formData.get('message');
+      chatLog.innerHTML += `
+        <div class="chat-message chat-message-user mb-3">
+          <div class="p-2 rounded bg-primary text-white d-inline-block float-right">
+            <span>${message}</span>
+          </div>
+        </div>
+      `;
+      sendButton.disabled = true;
+      scrollToBottom();
+      fetch('/chatbot/', {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => response.json())
+      .then(data => {
+        const responseMessage = data.message;
+        chatLog.innerHTML += `
+          <div class="chat-message chat-message-bot mb-3">
+            <div class="p-2 rounded bg-light d-inline-block">
+              <span>${responseMessage}</span>
+            </div>
+          </div>
+        `;
+        sendButton.disabled = false;
+        scrollToBottom();
+      });
+    });
+  </script>
 {% endblock %}
-
-

@@ -2,7 +2,7 @@ import os
 import openai
 import tiktoken
  
-openai.api_key = os.getenv("OPENAPI_KEY")
+openai.api_key = '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'
 
 class ChatBot:
     def __init__(self, message):
@@ -19,7 +19,7 @@ class ChatBot:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages = self.messages,
-            temperature = 0.8
+            temperature = 0.2
         )
          
         answer = response.choices[0]['message']['content']
@@ -34,7 +34,7 @@ class ChatBot:
         print(f"Total tokens: {tokens}")
  
         if tokens > 8000:
-            print("WARNING: Number of tokens exceeds 4000. Truncating messages.")
+            print("WARNING: Number of tokens exceeds 8000. Truncating messages.")
             self.messages = self.messages[2:]
 
     def num_tokens_from_messages(self, messages, model="gpt-3.5-turbo"):
@@ -61,6 +61,6 @@ if __name__ == "__main__":
     while count < 5:
         bot.chat()
         count += 1
-    with open('messages.txt', 'w') as f:
+    with open('messages{}.txt'.format(count), 'w') as f:
         for message in bot.messages:
             f.write(message['role'] + ": " + message['content'])
