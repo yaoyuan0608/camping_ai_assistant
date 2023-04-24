@@ -6,12 +6,7 @@ from django.http import JsonResponse
 import subprocess
 import json
 from django.views.decorators.csrf import csrf_exempt
-from langchain.vectorstores import Chroma
-from langchain.embeddings.openai import OpenAIEmbeddings
-from .response import CampingChatbot
-from langchain.document_loaders import TextLoader
-from langchain.text_splitter import CharacterTextSplitter
-import os
+import time
 # Create your views here.
 # os.environ['OPENAI_API_KEY'] =
 # loader = TextLoader("./chat_channel/static/data/camp_knowledge.txt")
