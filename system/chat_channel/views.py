@@ -2,13 +2,29 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Campsite, Reservation, UserMessage
 from .forms import ReservationForm, MessageForm
-from ./qa/chatbot import chatbot
 from django.http import JsonResponse
 import subprocess
 import json
 from django.views.decorators.csrf import csrf_exempt
-import time
+from langchain.vectorstores import Chroma
+from langchain.embeddings.openai import OpenAIEmbeddings
+from .response import CampingChatbot
+from langchain.document_loaders import TextLoader
+from langchain.text_splitter import CharacterTextSplitter
+import os
 # Create your views here.
+# os.environ['OPENAI_API_KEY'] =
+# loader = TextLoader("./chat_channel/static/data/camp_knowledge.txt")
+# documents = loader.load()
+# text_splitter = CharacterTextSplitter(
+#     chunk_size=1000, separator="\n", chunk_overlap=0)
+# documents = text_splitter.split_documents(documents)
+persist_directory = 'chat_channel/static/db'
+embedding = OpenAIEmbeddings()
+vectordb = Chroma(persist_directory=persist_directory,
+                  embedding_function=embedding)
+vectorstore = vectordb  # 使用前面的方法创建一个Chroma对象
+chat = CampingChatbot(vectorstore)
 
 
 def user_list(request):
@@ -38,17 +54,13 @@ def chatbot(request):
 
     if request.method == 'POST' and form.is_valid():
         form_data = request.POST.dict()
-        user_chatbot = chatbot()
         user_message = form_data.get('message')
-        response_message = user_chatbot.get_response(user_message)
-        if response_message:
-            # cmd = ['python', 'path/to/chat.py', user_message]
-            # response_message = subprocess.check_output(cmd, universal_newlines=True)
-            print("功能即将上线")
-            response_message = response_message
+
+        if user_message:
+            response_message = chat.receive_message(user_message)
+            print(response_message)
         else:
-            print("shabi")
-            response_message = '请说出您的问题'
+            response_message = 'Hi, how can I help you?'
 
         return JsonResponse({'message': response_message}, safe=False)
     else:
