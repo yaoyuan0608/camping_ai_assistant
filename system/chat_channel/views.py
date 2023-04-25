@@ -7,6 +7,14 @@ import subprocess
 import json
 from django.views.decorators.csrf import csrf_exempt
 import time
+import time
+from typing import List, Tuple
+from langchain import OpenAI
+import os
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.vectorstores import Chroma
+from .response import CampingChatbot
+
 # Create your views here.
 # os.environ['OPENAI_API_KEY'] =
 # loader = TextLoader("./chat_channel/static/data/camp_knowledge.txt")
