@@ -1,0 +1,54 @@
+{% extends 'chat_channel/base.html' %}
+
+{% block head %}
+  {{ block.super }}
+  <style>
+    .login-container {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 2rem;
+      border-radius: 5px;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-container h2 {
+      margin-bottom: 1rem;
+    }
+
+    .login-container form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .login-container form button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .login-container form button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="login-container">
+    <h2>Login</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Login</button>
+    </form>
+  </div>
+{% endblock %}
+

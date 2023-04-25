@@ -1,0 +1,88 @@
+{% extends 'chat_channel/base.html' %}
+
+{% block head %}
+  {{ block.super }}
+  <style>
+    .signup-container {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 2rem;
+      border-radius: 5px;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .signup-container h2 {
+      margin-bottom: 1rem;
+    }
+
+    .signup-container form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .signup-container form label {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .signup-container form input {
+      margin-bottom: 1rem;
+    }
+
+    .signup-container form button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .signup-container form button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+    <script>
+      function displayAlert(event) {
+        event.preventDefault();
+        alert("Test stage, we are not open to signup");
+      }
+    </script>
+{% endblock %}
+
+{% block content %}
+  <div class="signup-container">
+    <h2>Sign up</h2>
+    <form method="post" onsubmit="displayAlert(event)">
+      {% csrf_token %}
+      <label for="{{ form.username.id_for_label }}">Username:</label>
+      {{ form.username }}
+      <span></span>
+
+      <label for="{{ form.email.id_for_label }}">Email:</label>
+      {{ form.email }}
+      <span></span>
+
+      <label for="{{ form.password1.id_for_label }}">Password:</label>
+      {{ form.password1 }}
+      <ul>
+        <li>Your password can’t be too similar to your other personal information.</li>
+        <li>Your password must contain at least 8 characters.</li>
+        <li>Your password can’t be a commonly used password.</li>
+        <li>Your password can’t be entirely numeric.</li>
+      </ul>
+
+      <label for="{{ form.password2.id_for_label }}">Password confirmation:</label>
+      {{ form.password2 }}
+      <span>Enter the same password as before, for verification.</span>
+
+      <button type="submit">Sign up</button>
+    </form>
+  </div>
+{% endblock %}
