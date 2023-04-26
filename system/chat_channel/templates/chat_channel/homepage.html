@@ -1,0 +1,49 @@
+{% extends 'chat_channel/base.html' %}
+{% load static %}
+{% block styles %}
+  {{ block.super }}
+  <style>
+    /* Reset the background image from base.html */
+    html body {
+        background-image: linear-gradient(to right, #BCFBBB, #9BFB99);
+    }
+    /* Add custom styles for the images and text container */
+    .images-column img {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    .text-column {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+    .text-container {
+      /* text-align: center; */
+      font-size: 1.25rem;
+      color: #2b2d42;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-8 images-column">
+      <img src="{% static 'images/wide1.jpeg' %}" alt="Wide Image 1" class="img-fluid mb-3">
+      <img src="{% static 'images/wide2.jpeg' %}" alt="Wide Image 2" class="img-fluid mb-3">
+      <img src="{% static 'images/wide3.jpeg' %}" alt="Wide Image 3" class="img-fluid mb-3">
+      <img src="{% static 'images/wide4.jpeg' %}" alt="Wide Image 4" class="img-fluid mb-3">
+    </div>
+    <div class="col-md-4 text-column">
+      <div class="text-container">
+        <h2>Lake Park Camping</h2>
+        <p>Discover the serenity of our peaceful retreat, where you can relax and rejuvenate surrounded by nature. Plan your peaceful getaway with us and experience the beauty and tranquility of the great outdoors.</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

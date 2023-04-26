@@ -1,21 +1,81 @@
 {% extends 'chat_channel/base.html' %}
+
+{% block head %}
+  {{ block.super }}
+  <script>
+    function displayAlert(event) {
+      event.preventDefault();
+      alert("Successfully reserved, thank you!");
+    }
+  </script>
+{% endblock %}
+
 {% block content %}
-<div class="row">
-  <div class="col-md-6 offset-md-3">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title text-center mb-4">预定系统</h2>
-        <form method="post">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button type="submit" class="btn btn-primary btn-block">提交预定</button>
-        </form>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+      border-radius: 5px;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card-body {
+      padding: 2rem;
+    }
+
+    h2.card-title {
+      color: #5a6268;
+      font-weight: bold;
+    }
+
+    button.btn-primary {
+      background-color: #007bff;
+      border: none;
+      color: white;
+      padding: 0.5rem 2rem;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    button.btn-primary:hover {
+      background-color: #0069d9;
+    }
+
+    form {
+      margin-top: 1rem;
+    }
+  </style>
+
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Make reservations</h2>
+          <form method="post" onsubmit="displayAlert(event)">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+          </form>
+          {% if reserved %}
+            <div class="alert alert-success mt-4" role="alert">
+              Successfully reserved, thank you!
+            </div>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
-
-
-
-
