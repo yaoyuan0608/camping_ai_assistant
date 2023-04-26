@@ -18,6 +18,9 @@ from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
 
 # Create your views here.
+import time
+# Create your views here.
+# os.environ['OPENAI_API_KEY'] =
 # loader = TextLoader("./chat_channel/static/data/camp_knowledge.txt")
 # documents = loader.load()
 # text_splitter = CharacterTextSplitter(
