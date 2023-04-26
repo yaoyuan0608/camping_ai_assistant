@@ -30,7 +30,7 @@ def construct_index(directory_path):
     return index
 
 def check(input_response):
-    prompt = '判断下面这个句子和露营的相关程度，0表示不相关，1表示相关。' + input_response.response
+    prompt = 'Does the sentence associated with camping? return the score from 0 to 1' + input_response.response
     messages = [{ "role": "user", "content": prompt}]
          
     response = openai.ChatCompletion.create(
@@ -59,7 +59,7 @@ def chatbot(input_text):
     if check(response):
         return response.response
     else:
-        return "请不要问我这个问题，我不知道"
+        return "I don't know what you are talking about, try again!"
 
 iface = gr.Interface(fn=chatbot,
                      inputs=gr.inputs.Textbox(lines=7, label="Enter your text"),

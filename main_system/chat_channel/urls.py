@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView
 from django.urls import re_path
 
+# url patterns for the app
 urlpatterns = [
     path('', views.home, name='home'),
     path('homepage', views.homepage, name='homepage'),

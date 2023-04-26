@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.validators import EmailValidator
 
-
+# create a form for reserving campsites
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
@@ -34,13 +34,13 @@ class ReservationForm(forms.ModelForm):
 
         self.fields['time_slot'] = forms.ChoiceField(choices=time_slot_choices)
 
-
+# create a form for receiving messages from users
 class MessageForm(forms.Form):
     class Meta:
         model = UserMessage
         fields = ['message',]
 
-
+# create a form for creating  new users
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 

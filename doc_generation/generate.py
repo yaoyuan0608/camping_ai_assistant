@@ -2,8 +2,13 @@ import os
 import openai
 import tiktoken
  
-openai.api_key = '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'
+openai.api_key = os.getenv("OPENAPI_KEY")
 
+"""
+This is a script that demonstrates how to use the Chat API.
+You can use this script to chat with the GPT-3 engine.
+And generate a conversation with the engine, and save it to a file.
+"""
 class ChatBot:
     def __init__(self, message):
         self.messages = [
