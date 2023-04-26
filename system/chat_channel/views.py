@@ -23,7 +23,6 @@ from .forms import CustomUserCreationForm
 # text_splitter = CharacterTextSplitter(
 #     chunk_size=1000, separator="\n", chunk_overlap=0)
 # documents = text_splitter.split_documents(documents)
-os.environ['OPENAI_API_KEY'] = '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'
 persist_directory = 'chat_channel/static/db'
 embedding = OpenAIEmbeddings()
 vectordb = Chroma(persist_directory=persist_directory,
