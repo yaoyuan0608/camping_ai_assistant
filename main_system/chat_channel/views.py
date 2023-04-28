@@ -25,7 +25,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from .response import CampingChatbot
 
-os.environ['OPENAI_API_KEY'] = os.getenv("OPENAPI_KEY")
+os.environ['OPENAI_API_KEY'] = os.getenv("OPENAI_API_KEY")
 persist_directory = 'chat_channel/static/db'
 embedding = OpenAIEmbeddings()
 vectordb = Chroma(persist_directory=persist_directory,
