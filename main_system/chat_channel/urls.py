@@ -5,11 +5,12 @@ from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView
 from django.urls import re_path
 
+# url patterns for the app
 urlpatterns = [
     path('', views.home, name='home'),
     path('homepage', views.homepage, name='homepage'),
     path('reservation/', views.reservation_view, name='reservation'),
-    path('chatbot', views.chatbot, name='chatbot'),
+    path('chatbot/', views.chatbot, name='chatbot'),
     path('signup', views.signup, name='signup'),
     path('accounts/login/',
          LoginView.as_view(template_name='chat_channel/login.html'), name='login'),

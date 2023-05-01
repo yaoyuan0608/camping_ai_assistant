@@ -1,15 +1,29 @@
 import time
 from typing import List, Tuple
 from langchain import OpenAI
-import os
 from langchain.document_loaders import TextLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.llms import OpenAI
 from langchain.chains import ConversationalRetrievalChain
+import os
 
+"""
+Usage Example:
+    persist_directory = 'db'
+    embedding = OpenAIEmbeddings()
+    vectordb = Chroma(persist_directory=persist_directory,
+                    embedding_function=embedding)
+    vectorstore = vectordb 
+    chatbot = CampingChatbot(vectorstore)
 
+    response = chatbot.receive_message("What is camping?")
+    print(response)
+
+    response = chatbot.receive_message("How to get a good camping experience?")
+    print(response)
+"""
 class CampingChatbot:
     def __init__(self, vectorstore: Chroma, token_limit: int = 4096, timeout: int = 300):
         self.qa = ConversationalRetrievalChain.from_llm(
@@ -41,17 +55,4 @@ class CampingChatbot:
         return sum(len(question) + len(answer) for question, answer in chat_history)
 
 
-# 示例用法：
-# os.environ['OPENAI_API_KEY'] =
-# persist_directory = 'db'
-# embedding = OpenAIEmbeddings()
-# vectordb = Chroma(persist_directory=persist_directory,
-#                   embedding_function=embedding)
-# vectorstore = vectordb  # 使用前面的方法创建一个Chroma对象
-# chatbot = CampingChatbot(vectorstore)
 
-# response = chatbot.receive_message("What is camping?")
-# print(response)
-
-# response = chatbot.receive_message("How to get a good camping experience?")
-# print(response)

@@ -17,31 +17,28 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
 
-# Create your views here.
 import time
-# Create your views here.
-# os.environ['OPENAI_API_KEY'] =
-# loader = TextLoader("./chat_channel/static/data/camp_knowledge.txt")
-# documents = loader.load()
-# text_splitter = CharacterTextSplitter(
-#     chunk_size=1000, separator="\n", chunk_overlap=0)
-# documents = text_splitter.split_documents(documents)
-os.environ['OPENAI_API_KEY'] = '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'
+from typing import List, Tuple
+from langchain import OpenAI
+import os
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.vectorstores import Chroma
+from .response import CampingChatbot
+
+os.environ['OPENAI_API_KEY'] = os.getenv("OPENAI_API_KEY")
 persist_directory = 'chat_channel/static/db'
 embedding = OpenAIEmbeddings()
 vectordb = Chroma(persist_directory=persist_directory,
                   embedding_function=embedding)
-vectorstore = vectordb  # 使用前面的方法创建一个Chroma对象
+vectorstore = vectordb
 chat = CampingChatbot(vectorstore)
 
 
 def home(request):
     return render(request, "chat_channel/camping_home.html")
 
-
 def homepage(request):
     return render(request, "chat_channel/homepage.html")
-
 
 def chatbot(req):
     return HttpResponse('<h1>欢迎进入露营</h1>')
@@ -49,17 +46,15 @@ def chatbot(req):
 
 @login_required
 def reservation_view(request):
+    # redirect to other page if user is logged in
     # if request.method == 'POST':
     #     form = ReservationForm(request.POST)
     #     # if form.is_valid():
     #     # form.save()
-    #     # 这里可以添加预定成功后的操作，例如重定向到其他页面
     # else:
     form = ReservationForm()
-
     context = {'form': form}
     return render(request, 'chat_channel/reservation.html', context)
-
 
 @login_required
 def chatbot(request):
