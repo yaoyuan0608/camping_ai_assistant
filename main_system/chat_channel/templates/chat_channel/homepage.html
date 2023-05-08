@@ -10,7 +10,7 @@
     /* Add custom styles for the images and text container */
     .images-column img {
       width: 100%;
-      margin-bottom: 1rem;
+      margin-bottom: 0rem;
     }
     .text-column {
       display: flex;
@@ -35,15 +35,16 @@
   <div class="row">
     <div class="col-md-8 images-column">
       <img src="{% static 'images/wide1.jpeg' %}" alt="Wide Image 1" class="img-fluid mb-3">
-      <img src="{% static 'images/wide2.jpeg' %}" alt="Wide Image 2" class="img-fluid mb-3">
-      <img src="{% static 'images/wide3.jpeg' %}" alt="Wide Image 3" class="img-fluid mb-3">
-      <img src="{% static 'images/wide4.jpeg' %}" alt="Wide Image 4" class="img-fluid mb-3">
-    </div>
-    <div class="col-md-4 text-column">
+
       <div class="text-container">
         <h2>Lake Park Camping</h2>
         <p>Discover the serenity of our peaceful retreat, where you can relax and rejuvenate surrounded by nature. Plan your peaceful getaway with us and experience the beauty and tranquility of the great outdoors.</p>
       </div>
+      <img src="{% static 'images/wide2.jpeg' %}" alt="Wide Image 2" class="img-fluid mb-3">
+      <img src="{% static 'images/wide3.jpeg' %}" alt="Wide Image 3" class="img-fluid mb-3">
+      <img src="{% static 'images/wide4.jpeg' %}" alt="Wide Image 4" class="img-fluid mb-3">
     </div>
+
   </div>
+
 {% endblock %}

@@ -3,78 +3,138 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block head %}
     <title>{% block title %}{% endblock %} - Lake Park Camping</title>
     {% endblock %}
-    <link rel="icon" type="image/jpeg" href="{% static 'images/icon.jpeg' %}">
     {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     {% endblock %}
     <style>
-      body {
-        background-image: url("{% static 'images/camp_background.jpg' %}");
-        background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
+    html { 
+      background: url('{% static "images/wide4.jpeg" %}') no-repeat rgba(0, 0, 0, 0.214); 
+      background-position: center;
       background-attachment: fixed;
+      background-size: cover;
+      background-blend-mode: multiply;
+    }
+
+    li {
+      list-style-type: none;
+    }
+
+      header{
+        z-index: 999;
+        position: fixed;
+        height:80px;
+        top: 0;
+        left: 0;
+        /* background: linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0.351), rgba(0, 0, 0, 0.013)); */
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.407), rgba(255, 244, 27, 0), rgba(0, 0, 0, 0.013)),
+                    linear-gradient(to right bottom, #1f97ffa5, #00000000,#00000000),
+                    linear-gradient(to left bottom, #1fff6657,#00000000,#ffffff00);
+                    
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 200px;
+        transition: 0.5s ease;
       }
+
+
+      @media screen and (max-width: 1200px) {
+        header{
+        position: fixed;
+        height:80px;
+        top: 0;
+        left: 0;
+        /* background: linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0.351), rgba(0, 0, 0, 0.013)); */
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.407), rgba(255, 244, 27, 0), rgba(0, 0, 0, 0.013)),
+                    linear-gradient(to right bottom, #1f97ffa5, #00000000,#00000000),
+                    linear-gradient(to left bottom, #1fff6657,#00000000,#ffffff00);
+                    
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        transition: 0.5s ease;
+        }
+        header .nav-item{
+          margin-left: 10%;
+        }
+        header .menu-btn{
+          margin-right: 0;
+        }
+}
     </style>
   </head>
+
   <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-      <a class="navbar-brand" href="{% url 'home' %}">Camping</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'homepage' %}">Homepage</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'reservation' %}">Reservation</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'chatbot' %}">Chatbot</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-          {% if user.is_authenticated %}
-            <li class="nav-item">
-              <span class="nav-link">{{ user.first_name|truncatechars:2 }}</span>
-            </li>
-          {% else %}
-            <li class="nav-item">
-              <a class="nav-link btn btn-primary" href="{% url 'login' %}">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link btn btn-outline-primary" href="{% url 'signup' %}">Sign Up</a>
-            </li>
-          {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">
-              <img src="{% static 'images/icon.jpeg' %}" alt="Icon" width="30" height="30" class="rounded">
-            </a>
-          </li>
-        </ul>
+
+    <header>
+    <!-- logo of camping company -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'home' %}">
+          <img src="{% static 'images/icon.jpeg' %}" alt="Icon" width="30" height="30" class="rounded">
+        </a>
+      </li>
+    <!-- camping title -->
+      <a href="{% url 'home' %}" class="brand">Camping</a>
+    <!-- navigation items and menu combination button -->
+      <div class="menu-btn"></div>
+      <div class="navigation">
+        <div class="navigation-items">
+          <a href="{% url 'homepage' %}">Home</a>
+          <a href="{% url 'reservation' %}">Reservation</a>
+          <a href="{% url 'chatbot' %}">Chatbot</a>
+        </div>
       </div>
-    </nav>
-    <main role="main" class="container">
+
+      {% if user.is_authenticated %}
+        <div class="navigation-items">
+          <span>{{ user.first_name|truncatechars:2 }}</span>
+        </div>
+      {% else %}
+      <div class="icons">
+        <a class="fas fa-user" id="login-btn" style="color: #fff;" href="{% url 'login' %}"></a>
+      </div>
+      {% endif %}
+
+    </header>
+
+
+  <!-- Javascript section -->
+    
+  <!-- Javascript for responsive navigation menu -->
+    <script type="text/javascript">
+      const menuBtn = document.querySelector(".menu-btn");
+      const navigation = document.querySelector(".navigation");
+      menuBtn.addEventListener("click", () => {
+      menuBtn.classList.toggle("active");
+      navigation.classList.toggle("active");
+    });
+  
+  
+  </script>  
+  
       {% block content %}
       
       {% endblock %}
-    </main>
+
     {% block scripts %}
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.slim.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/4.6.0/js/bootstrap.min.js"></script>
-      <!-- Load React. -->
-      <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 
-        <!-- Load our React component. -->
+    <!-- Load our React component. -->
     <script src="{% static 'js/like_button.js' %}"></script>
     {% endblock %}
   </body>

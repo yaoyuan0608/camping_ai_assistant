@@ -1,54 +1,384 @@
 {% extends 'chat_channel/base.html' %}
-
+{% load static %}
 {% block content %}
-  <div class="container my-5">
-    <div class="row">
-      <div class="col-lg-8 offset-lg-2">
-        <div class="card">
-          <div class="card-header bg-dark text-white">
-            Chatbot
+
+<style>
+
+
+
+    ul {
+      list-style-type: none;
+    }
+    .container {
+      margin-top: 0%;
+      padding: 8%;
+      width: 100%;
+      background: #4447531b;
+      border-radius: 5px;
+    }
+    .btn {
+      width: 30%;
+      height: 45px;
+      float:right;
+      font-family: 'Roboto', sans-serif;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      font-weight: 500;
+      color: #000;
+      background-color: #fff;
+      margin-top: .5rem;
+      border: none;
+      border-radius: 45px;
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease 0s;
+      cursor: pointer;
+      outline: none;
+      }
+
+    .btn:hover {
+      background-color: #2EE59D;
+      box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+      color: #fff;
+      transform: translateY(-7px);
+    }
+
+
+    .message__outer {
+        display: flex;
+    }
+
+    .message__inner {
+        flex: 1;
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    .chat {
+      height: calc(vh - 10rem);
+      bottom: 0px;
+      left: 0px;
+      position: relative;
+      border-radius: 15px;
+      justify-content: center;
+    }
+
+    .chat .chat-header {
+      padding: .5rem;
+      border-bottom: 2px solid white;
+    }
+    .chat .chat-header img {
+      float: left;
+    }
+    .chat .chat-header .chat-about {
+      float: left;
+      padding-left: .5rem;
+      margin-top: .5rem;
+    }
+    .chat .chat-header .chat-with {
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    .chat .chat-header .chat-num-messages {
+      color: #92959E;
+    }
+    .chat .chat-header .fa-star {
+      float: right;
+      color: #D8DADF;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+    .chat .chat-history {
+      padding: 2rem 2rem 1rem;
+      border-bottom: 2px solid white;
+      border-radius: 5px 5px 0px 0px;
+      overflow-y: scroll;
+      height: 480px;
+      backdrop-filter: blur(.3rem);
+    }
+    .chat .chat-history .message-data {
+      margin-bottom: 1rem;
+    }
+    .chat .chat-history .message-data-time {
+      color: #a8aab1;
+      padding-left: 6px;
+    }
+    .chat .chat-history .message-data-name {
+      color: #fff;
+      padding-left: 6px;
+    }
+
+    .chat .chat-history .message {
+      color: white;
+      padding: 1rem 1rem;
+      line-height: 2rem;
+      font-size: 1rem;
+      border-radius: 7px;
+      margin-bottom: 2rem;
+      width: 90%;
+      position: relative;
+    }
+    .chat .chat-history .message:after {
+      bottom: 100%;
+      left: 7%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-bottom-color: #86BB71;
+      border-width: 10px;
+      margin-left: -10px;
+    }
+    .chat .chat-history .my-message {
+      background: #86BB71;
+      max-width: 70%;
+    }
+    .chat .chat-history .other-message {
+      background: #94C2ED;
+      max-width: 70%;
+
+    }
+    .chat .chat-history .other-message:after {
+      border-bottom-color: #94C2ED;
+      left: 93%;
+    }
+    .chat .chat-message {
+      padding: 30px;
+      background: #728596;
+      border-radius: 0px 0px 15px 15px;
+
+    }
+
+    .chat .chat-message form div #id_message{
+      width: 100%;
+      height: 4rem;
+      border: none;
+      padding: 10px 20px;
+      font: 17px/22px "Lato", Arial, sans-serif;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      resize: none;
+    }
+
+    .chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
+      font-size: 16px;
+      color: gray;
+      cursor: pointer;
+    }
+    
+    
+
+    .online, .offline, .me {
+      margin-right: 3px;
+      font-size: 10px;
+    }
+
+    .online {
+      color: #86BB71;
+    }
+
+    .offline {
+      color: #E38968;
+    }
+
+    .me {
+      color: #94C2ED;
+    }
+
+    .align-left {
+      text-align: left;
+    }
+
+    .align-right {
+      text-align: right;
+    }
+
+    .float-right {
+      float: right;
+    }
+
+    .clearfix:after {
+      visibility: hidden;
+      display: block;
+      font-size: 0;
+      content: " ";
+      clear: both;
+      height: 0;
+    }
+
+
+
+    .cover-spin {
+        position:fixed;
+        width:100%;
+        left:0;right:0;top:0;bottom:0;
+        background-color: rgba(255,255,255,0.7);
+        z-index:9999;
+        display:none;
+    }
+    .cover-words {
+        z-index:10;
+        position: relative; 
+        margin:50%;
+        /* width:100%; */
+        /* left:50%;right:50%;top:50%;bottom:50%; */
+        display:flex;
+    }
+
+    @-webkit-keyframes spin {
+      from {-webkit-transform:rotate(0deg);}
+      to {-webkit-transform:rotate(360deg);}
+    }
+
+    @keyframes spin {
+      from {transform:rotate(0deg);}
+      to {transform:rotate(360deg);}
+    }
+
+    .cover-spin.active {
+        content:'';
+        display:block;
+        position:absolute;
+        left:48%;top:40%;
+        width:40px;height:40px;
+        border-style:solid;
+        border-color:black;
+        border-top-color:transparent;
+        border-width: 4px;
+        border-radius:50%;
+        -webkit-animation: spin .8s linear infinite;
+        animation: spin .8s linear infinite;
+    }
+
+    .line-of-words {
+   position: absolute;
+   top: 55%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   z-index: 9999;
+   text-align: center;
+   display: none;
+}
+
+
+.line-of-words.activate {
+   position: absolute;
+   top: 55%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   z-index: 9999;
+   text-align: center;
+   display: flex;
+}
+
+.line-of-words p {
+   font-size: 3em;
+   font-weight: bold;
+   color: #ffffff;
+   background-color: #00000000;
+   padding: 10px;
+   border-radius: 10px;
+}
+
+.line-of-words.activate p {
+   font-size: 3em;
+   font-weight: bold;
+   color: #ffffff;
+   background-color: #00000000;
+   padding: 10px;
+   border-radius: 10px;
+}
+
+</style>
+
+
+
+
+<!-- chat bot section  -->
+<div class="cover-spin"></div>
+
+<div class="line-of-words">
+  <p>      AI Generating...</p>
+</div>
+
+
+<div class="container clearfix">
+
+  <div class="chat">
+    
+    <div class="chat-history">
+
+      <ul>
+        
+        <li>
+          <div class="message-data">
+            <span class="message-data-name"><i class="fa fa-circle online"></i> Chatbot</span>
+            <span class="message-data-time">10:14 AM</span>
           </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="chat-history p-3">
-                  <div class="chat-message chat-message-bot mb-3">
-                    <div class="p-2 rounded bg-light d-inline-block">
-                      <span>Hello, what can I do for you?</span>
-                    </div>
-                  </div>
-                  <div class="chat-message chat-message-user mb-3">
-                    <div class="p-2 rounded bg-primary text-white d-inline-block float-right">
-                      <span>Hi, I want to ask some questions about camping</span>
-                    </div>
-                  </div>
-                  <div class="chat-message chat-message-bot mb-3">
-                    <div class="p-2 rounded bg-light d-inline-block">
-                      <span>Sure!</span>
-                    </div>
-                  </div>
-                  <!-- add more chat messages here -->
-                </div>
-                <div id="chat-input" class="mt-3">
-                  <form method="POST" id="chat-form" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="input-group">
-                      <input type="text" name="message" id="id_message" class="form-control rounded-0">
-                      <div class="input-group-append">
-                        <button class="btn btn-primary rounded-0" type="submit" id="send-button"><i class="fa fa-paper-plane"></i>发送</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
+          <div class="message my-message">
+            Welcome to Campbot! You can ask me for camping advice, recommendations, and our company: Lake Park Camping. What can I help you with today?
           </div>
+        </li>
+        
+        <li class="clearfix">
+          <div class="message-data align-right">
+            <span class="message-data-time" >10:14 AM</span> &nbsp; &nbsp;
+            <span class="message-data-name" >Me</span> <i class="fa fa-circle me"></i>
+            
+          </div>
+          <div class="message other-message float-right align-right">
+            Hi, I want to ask some questions about camping!
+          </div>
+        </li>
+        
+        <li>
+          <div class="message-data">
+            <span class="message-data-name"><i class="fa fa-circle online"></i> Chatbot</span>
+            <span class="message-data-time">10:14 AM</span>
+          </div>
+          <div class="message my-message">
+            Sure!
+          </div>
+        </li>
+        
+        
+      </ul>
+      
+    </div> <!-- end chat-history -->
+    
+    <div class="chat-message clearfix">
+      <!-- <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
+              
+      <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
+      <i class="fa fa-file-image-o"></i>
+      
+      <button>Send</button> -->
+      <form method="POST" id="chat-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="input-group">
+          <input type="text" name="message" id="id_message" class="form-control rounded-0">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary rounded-0" id="send-button" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Waiting Respond">Submit</button>
+          </div>
+         
         </div>
-      </div>
-    </div>
-  </div>
+      </form>
+
+    </div> <!-- end chat-message -->
+    
+  </div> <!-- end chat -->
+  
+</div> <!-- end container -->
+
+
+
 
   <script>
+
+
+
+
     const chatForm = document.querySelector('#chat-form');
     const chatLog = document.querySelector('.chat-history');
     const sendButton = document.querySelector('#send-button');
@@ -61,16 +391,31 @@
       event.preventDefault();
       const formData = new FormData(chatForm);
       const message = formData.get('message');
+      const loadingGIF = document.querySelector('.cover-spin');
+      const loadingWORDS = document.querySelector('.line-of-words');
+
       chatLog.innerHTML += `
-        <div class="chat-message chat-message-user mb-3">
-          <div class="p-2 rounded bg-primary text-white d-inline-block float-right">
-            <span>${message}</span>
+        <li class="clearfix">
+          <div class="message-data align-right">
+            <span class="message-data-time" >10:14 AM</span> &nbsp; &nbsp;
+            <span class="message-data-name" >Me</span> <i class="fa fa-circle me"></i>
+            
           </div>
-        </div>
+          <div class="message other-message float-right">
+            ${message}
+          </div>
+        </li>
+        
       `;
+      $('.btn').button('loading');
+
       sendButton.disabled = true;
       scrollToBottom();
-      fetch('/chatbot/', {
+      chatForm.querySelector('#id_message').value = '';
+      loadingGIF.classList.add('active');
+      loadingWORDS.classList.add('active');
+
+      fetch('/chatbot', {
         method: 'POST',
         body: formData,
       })
@@ -78,12 +423,19 @@
       .then(data => {
         const responseMessage = data.message;
         chatLog.innerHTML += `
-          <div class="chat-message chat-message-bot mb-3">
-            <div class="p-2 rounded bg-light d-inline-block">
-              <span>${responseMessage}</span>
-            </div>
+        <li>
+          <div class="message-data">
+            <span class="message-data-name"><i class="fa fa-circle online"></i> Chatbot</span>
+            <span class="message-data-time">10:14 AM</span>
           </div>
+          <div class="message my-message">
+            ${responseMessage}
+          </div>
+        </li>
         `;
+        loadingGIF.classList.remove('active');
+        loadingWORDS.classList.remove('active');
+
         sendButton.disabled = false;
         scrollToBottom();
       });

@@ -2,65 +2,60 @@
 {% load static %}
 {% block styles %}
   {{ block.super }}
-  <style>
-    html body {
-        background-image: linear-gradient(to right, #FCFBD7, #F9F7A1);
-        overflow: hidden;
-        margin: 0;
-        padding: 0;
-    }
-    .image-container {
-      position: absolute;
-      top: 62px;
-      height: calc(100vh - 62px);
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center bottom;
-      overflow: hidden;
-    }
-    .image-container:first-child {
-      left: 0;
-      width: calc(100% / 4);
-      background-image: url("{% static 'images/long1.jpeg' %}");
-    }
-    .image-container:last-child {
-      right: 0;
-      width: calc(100% / 4);
-      background-image: url("{% static 'images/long2.jpeg' %}");
-    }
-    .text-column {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        max-height: calc(100vh - 56px);
-        width: calc(100% / 3);
-        position: fixed;
-        top: 56px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1;
-    }
-    .text-container {
-      font-family: 'Pacifico', cursive;
-      font-size: 1.5rem;
-      color: #2b2d42;
-      background-color: rgba(255, 255, 255, 0.8);
-      padding: 1rem;
-      border-radius: 1rem;
-    }
-  </style>
+ 
+
 {% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="image-container"></div>
-    <div class="text-column">
-      <div class="text-container">
-        <h2>Why Camping?</h2>
-        <p>Disconnect from the world and reconnect with nature. Experience the beauty and tranquility of the great outdoors. Plan your peaceful getaway with us and discover the serenity of our peaceful retreat, where you can relax and rejuvenate surrounded by nature.</p>
-      </div>
+  <section class="home">
+    <video class="video-slide active" src="{% static 'video/nightcamp.mp4' %}" autoplay muted loop></video>
+    <video class="video-slide" src="{% static 'video/fireman.mp4' %}" autoplay muted loop></video>
+    <div class="content active">
+      <h1>Why<br><span>Camping?</span></h1>
+      <p>Disconnect from the world and reconnect with nature. Experience the beauty and tranquility of the great outdoors. Plan your peaceful getaway with us and discover the serenity of our peaceful retreat, where you can relax and rejuvenate surrounded by nature.</p>
     </div>
-    <div class="image-container"></div>
-  </div>
+    <div class="content">
+      <h1>Camping<br><span>Enjoy</span></h1>
+      <p>People enjoy camping because it provides an opportunity to spend quality time with friends away from the distractions of daily life, offers a variety of outdoor activities, can be an adventure, is a great way to relax and unwind, and can be an affordable vacation option compared to other types of travel. Additionally, camping can build self-sufficiency and problem-solving skills, which can build confidence and resilience.</p>
+    </div>
+    <div class="slider-navigation">
+      <div class="nav-btn active"></div>
+      <div class="nav-btn"></div>
+    </div>
+  </section>
+  
+
+  <script type="text/javascript">
+      //Javacript for video slider navigation
+      const btns = document.querySelectorAll(".nav-btn");
+      const slides = document.querySelectorAll(".video-slide");
+      const contents = document.querySelectorAll(".content");
+
+      var sliderNav = function(manual){
+        btns.forEach((btn) => {
+          btn.classList.remove("active");
+        });
+
+        slides.forEach((slide) => {
+          slide.classList.remove("active");
+        });
+
+        contents.forEach((content) => {
+          content.classList.remove("active");
+        });
+
+        btns[manual].classList.add("active");
+        slides[manual].classList.add("active");
+        contents[manual].classList.add("active");
+      }
+
+      btns.forEach((btn, i) => {
+        btn.addEventListener("click", () => {
+          sliderNav(i);
+        });
+      });
+
+
+  </script>
+
 {% endblock %}

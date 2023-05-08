@@ -1,5 +1,5 @@
 {% extends 'chat_channel/base.html' %}
-
+{% load static %}
 {% block head %}
   {{ block.super }}
   <script>
@@ -12,70 +12,132 @@
 
 {% block content %}
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-    }
-
-    .card {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-      transition: 0.3s;
-      border-radius: 5px;
-    }
-
-    .card:hover {
-      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    }
-
-    .card-body {
-      padding: 2rem;
-    }
-
-    h2.card-title {
-      color: #5a6268;
-      font-weight: bold;
-    }
-
-    button.btn-primary {
-      background-color: #007bff;
-      border: none;
-      color: white;
-      padding: 0.5rem 2rem;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 1rem;
-      margin: 0.5rem 0;
-      cursor: pointer;
-      border-radius: 3px;
-    }
-
-    button.btn-primary:hover {
-      background-color: #0069d9;
-    }
 
     form {
       margin-top: 1rem;
     }
+
+    .btn {
+      width: 100%;
+      height: 45px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      font-weight: 500;
+      color: #000;
+      background-color: #fff;
+      margin-top: 1.5rem;
+      border: none;
+      border-radius: 45px;
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease 0s;
+      cursor: pointer;
+      outline: none;
+      }
+
+    .btn:hover {
+      background-color: #2EE59D;
+      box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+      color: #fff;
+      transform: translateY(-7px);
+    }
+
+    .rcontainer{
+      height: 900px;
+      margin: 0;
+
+    }
+
+    .resvervation{
+      background: url('{% static "images/wide4.jpeg" %}') no-repeat rgba(0, 0, 0, 0.214);
+      background-position: center;
+      background-attachment: fixed;
+      background-size: cover;
+      background-blend-mode: multiply;
+    }
+
+
+    .resvervation .flex{
+      min-height: calc(50vh - 10rem);
+      bottom: 0px;
+      left: 0px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      align-self: left;
+      justify-content: center;
+    }
+
+    .resvervation .flex form{
+      background-color: var(--light-bg);
+      border-radius: 3rem;
+      padding: 2rem;
+      width: 40rem;
+      backdrop-filter: blur(.3rem);
+    }
+
+    .resvervation .flex form h3{
+      font-size: 1.5rem;
+      color: #fff;
+      padding-bottom: 1rem;
+      text-align: left;
+    }
+
+    .resvervation .flex form p{
+      padding-top: .2rem;
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    .resvervation .flex form .bbox{
+      width: 100%;
+      height: 45px;
+      border-radius: 45px;
+      border:1px solid #fff;
+      padding: 1rem;
+      font-size: .8rem;
+      color: #fff;
+      text-transform: none;
+      background: #06271331;
+      margin: 1rem 0;
+    }
+
+    .resvervation .flex form .bbox::placeholder{
+      color: var(--light-white);
+    }
+
+
   </style>
 
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-body">
-          <h2 class="card-title text-center mb-4">Make reservations</h2>
-          <form method="post" onsubmit="displayAlert(event)">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary btn-block">Submit</button>
-          </form>
-          {% if reserved %}
-            <div class="alert alert-success mt-4" role="alert">
-              Successfully reserved, thank you!
-            </div>
-          {% endif %}
-        </div>
+<div class="rcontainer resvervation" data-aos="zoom-out">
+
+  <section class="flex" data-aos="zoom-in" data-aos-delay="600">
+
+     <form method="post" onsubmit="displayAlert(event)">
+      <!-- {% csrf_token %}
+      {{ form.as_p }} -->
+        <h3>Make reservations</h3>
+        <p>Campsite</p>
+        <input type="text" name="location" required maxlength="50" placeholder="enter tour location" class="bbox">
+        <p>When to go</p>
+        <input type="date" name="date" class="bbox" required>
+        <p>When to leave</p>
+        <input type="date" name="date" class="bbox" required>
+        <p>Num of People</p>
+        <input type="number" name="guests" min="1" max="10" maxlength="2" placeholder="number of guests" required class="bbox">
+        <input type="submit" value="Submit" name="submit" class="btn"></input>
+     </form>
+     {% if reserved %}
+      <div class="alert alert-success mt-4" role="alert">
+        Successfully reserved, thank you!
       </div>
-    </div>
-  </div>
+     {% endif %}
+  </section>
+
+</div>
+
+
+
+
 {% endblock %}

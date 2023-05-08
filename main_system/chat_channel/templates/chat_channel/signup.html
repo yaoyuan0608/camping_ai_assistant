@@ -1,14 +1,29 @@
 {% extends 'chat_channel/base.html' %}
-
+{% load static %}
 {% block head %}
   {{ block.super }}
   <style>
+
+
+
+   
+    .resvervation .flex{
+      min-height: calc(50vh - 10rem);
+      bottom: 0px;
+      left: 0px;
+      position: relative;
+      display: flex;
+      /* align-items: center; */
+      align-self: left;
+      /* justify-content: center; */
+    }
+
     .signup-container {
-      background-color: rgba(255, 255, 255, 0.8);
+      background:linear-gradient(45deg, #1f97ffa5,#24e72e4e);
       padding: 2rem;
       border-radius: 5px;
       max-width: 500px;
-      margin: 0 auto;
+      margin: 1rem auto;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
@@ -57,32 +72,39 @@
 {% endblock %}
 
 {% block content %}
-  <div class="signup-container">
-    <h2>Sign up</h2>
-    <form method="post" onsubmit="displayAlert(event)">
-      {% csrf_token %}
-      <label for="{{ form.username.id_for_label }}">Username:</label>
-      {{ form.username }}
-      <span></span>
 
-      <label for="{{ form.email.id_for_label }}">Email:</label>
-      {{ form.email }}
-      <span></span>
+<div class="resvervation">
+  <section class="flex">
+    <div class="signup-container">
+      <h2>Sign up</h2>
+      <form method="post" onsubmit="displayAlert(event)">
+        {% csrf_token %}
+        <label for="{{ form.username.id_for_label }}">Username:</label>
+        {{ form.username }}
+        <span></span>
+  
+        <label for="{{ form.email.id_for_label }}">Email:</label>
+        {{ form.email }}
+        <span></span>
+  
+        <label for="{{ form.password1.id_for_label }}">Password:</label>
+        {{ form.password1 }}
+        <ul>
+          <li>Your password can’t be too similar to your other personal information.</li>
+          <li>Your password must contain at least 8 characters.</li>
+          <li>Your password can’t be a commonly used password.</li>
+          <li>Your password can’t be entirely numeric.</li>
+        </ul>
+  
+        <label for="{{ form.password2.id_for_label }}">Password confirmation:</label>
+        {{ form.password2 }}
+        <span>Enter the same password as before, for verification.</span>
+  
+        <button type="submit">Sign up</button>
+      </form>
+    </div>
+  </section>
+</div>
 
-      <label for="{{ form.password1.id_for_label }}">Password:</label>
-      {{ form.password1 }}
-      <ul>
-        <li>Your password can’t be too similar to your other personal information.</li>
-        <li>Your password must contain at least 8 characters.</li>
-        <li>Your password can’t be a commonly used password.</li>
-        <li>Your password can’t be entirely numeric.</li>
-      </ul>
-
-      <label for="{{ form.password2.id_for_label }}">Password confirmation:</label>
-      {{ form.password2 }}
-      <span>Enter the same password as before, for verification.</span>
-
-      <button type="submit">Sign up</button>
-    </form>
-  </div>
+  
 {% endblock %}
